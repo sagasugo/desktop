@@ -11,6 +11,7 @@ const config = {
   kit: {
     alias: {
       "@/*": "./path/to/lib/*",
+      "@/*": "./src/*",
     },
     adapter: adapter({
       fallback: "index.html",
