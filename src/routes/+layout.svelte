@@ -8,7 +8,10 @@
   let { children } = $props();
 </script>
 
-<div class={cn(themeMode.value, "w-screen h-screen flex bg-background")}>
+<div
+  data-theme="nouveau"
+  class={cn(themeMode.value, "w-screen h-screen flex bg-background")}
+>
   <SidebarProv.Provider>
     <Sidebar />
     <SidebarProv.Inset>

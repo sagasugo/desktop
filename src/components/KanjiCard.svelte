@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { Button } from "@/lib/components";
+  import { cn } from "@/lib/utils";
   import { kanjiShowed } from "@/states";
 
   let {
@@ -16,12 +16,19 @@
   } = $props();
 </script>
 
-<Button
-  class="flex flex-col py-6 transition-all duration-500 hover:scale-125"
-  variant="secondary"
-  onclick={() => kanjiShowed.set(kanji)}
+<button
+  class={cn(
+    "btn preset-outlined-surface-500 hover:preset-filled-surface-500 text-primary flex flex-col py-6 transition-all duration-300 select-none rounded-sm",
+    kanjiShowed.value?.radical === kanji.radical && "preset-filled-surface-500",
+  )}
+  onclick={() => {
+    kanjiShowed.value =
+      kanjiShowed.value === null || kanjiShowed.value.radical !== kanji.radical
+        ? kanji
+        : null;
+  }}
 >
   <span class="text-3xl">
     {kanji.radical}
   </span>
-</Button>
+</button>
