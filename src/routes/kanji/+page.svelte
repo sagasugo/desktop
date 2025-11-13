@@ -1,14 +1,31 @@
 <script lang="ts">
   import { VList } from "virtua/svelte";
-  import { toHiragana } from "wanakana";
-  import { kanjis } from "@/constants";
+  import { toHiragana, toRomaji } from "wanakana";
+  import { fdppp as kanji } from "@/constants";
   import { Input, Separator } from "@/lib/components";
   import { KanjiCard } from "@/components";
   import { kanjiShowed } from "@/states";
   import { cn } from "@/lib/utils";
+  import { db } from "@/db/client";
+  import { kanjis } from "@/db/schema";
+  import type { Kanji } from "@/type";
+  import { onMount } from "svelte";
+  import { eq } from "drizzle-orm";
 
   let search = $state("");
   let searchKana = $derived(toHiragana(search));
+
+  let kanjiData: Kanji[] = $state(await db.select().from(kanjis).limit(500));
+  let showedKanjis: Kanji[] = $derived(
+    kanjiData.filter(
+      (k) =>
+        k.mainOnReading?.includes(searchKana) ||
+        k.mainKunReading?.includes(searchKana) ||
+        toRomaji(k.mainOnReading ?? "").includes(search) ||
+        toRomaji(k.mainKunReading ?? "").includes(search) ||
+        k.jlpt?.toString() === search,
+    ),
+  );
 </script>
 
 <div class="w-full h-full flex !overflow-x-none">
@@ -18,18 +35,19 @@
       kanjiShowed.value === null ? "w-full" : "w-1/2",
     )}
   >
-    <Input
-      class="w-8/10 text-primary"
-      placeholder="Search kanjis..."
-      bind:value={search}
-    />
+    <div class="flex flex-col h-20! p-4 w-8/10 text-primary">
+      <Input
+        variant="link"
+        placeholder="Search kanjis..."
+        bind:value={search}
+      />
+      {searchKana}
+    </div>
     <div
-      class="flex flex-wrap gap-1 justify-center overflow-y-scroll overflow-x-none"
+      class="flex flex-wrap gap-1 justify-center overflow-y-scroll overflow-x-none scrollbar"
     >
-      {#each kanjis as kanji, i (i)}
-        {#if search === "" || kanji.furigana.includes(searchKana) || kanji.jlpt.includes(search) || kanji.meaning[0].includes(search)}
-          <KanjiCard {kanji} />
-        {/if}
+      {#each showedKanjis as kanji, i (i)}
+        <KanjiCard {kanji} />
       {/each}
     </div>
     <!-- <VList -->
@@ -52,19 +70,19 @@
     )}
   >
     <h1 class="text-[12rem] text-primary">
-      {kanjiShowed.value?.radical}
+      {kanjiShowed.value?.kanji}
     </h1>
     <span class="text-primary text-4xl">
-      {kanjiShowed.value?.furigana}
+      {kanjiShowed.value?.onReadings}
     </span>
     <span class="text-primary text-2xl">
-      {kanjiShowed.value?.meaning}
+      {kanjiShowed.value?.kunReadings}
     </span>
     <span class="text-primary text-2xl">
-      {kanjiShowed.value?.jlpt}
+      {kanjiShowed.value?.radicals}
     </span>
     <span class="p-4 text-primary text-xl">
-      {kanjiShowed.value?.phrases[0]}
+      JLPT {kanjiShowed.value?.jlpt}
     </span>
   </div>
 </div>

@@ -1,1 +1,2 @@
-export * from "./kanji"
+export * from "./kanji";
+export * from "./path";

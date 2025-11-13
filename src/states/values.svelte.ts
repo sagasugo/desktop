@@ -1,11 +1,6 @@
+import type { Kanji } from "@/type"
+
 export let kanjiShowed = new class {
-  value: {
-    radical: string;
-    furigana: string;
-    meaning: string[];
-    jlpt: string;
-    readings: string[];
-    phrases: string[];
-  } | null = $state(null)
+  value: Kanji | null = $state(null)
 }
 

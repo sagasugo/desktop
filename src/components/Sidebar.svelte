@@ -35,36 +35,18 @@
   </Sidebar.Header>
   <Sidebar.Content>
     <Sidebar.Group>
-      <Sidebar.Menu>
+      <Sidebar.Menu class="[&>*]:text-bold [&>*]:text-xl [&>*]:justify-center">
         <Sidebar.MenuButton
-          class="text-bold text-xl justify-between"
-          variant={page.url.pathname === "/discover" ? "outline" : "default"}
-          onclick={() => goto("/discover")}
+          variant={page.url.pathname === "/kanji" ? "outline" : "default"}
+          onclick={() => goto("/kanji")}
         >
-          Discover
-          <Icon
-            class="!size-6"
-            icon={page.url.pathname === "/discover"
-              ? "line-md:compass-filled-loop"
-              : "line-md:compass"}
-          />
+          Kanji 漢字
         </Sidebar.MenuButton>
-        <Sidebar.MenuButton
-          class="text-bold text-xl justify-between"
-          onclick={() => goto("/discover")}
-        >
-          Saved
-          <Icon
-            class="!size-6"
-            icon={"material-symbols:book-2-outline-rounded"}
-          />
+        <Sidebar.MenuButton onclick={() => goto("/discover")}>
+          Word 言葉
         </Sidebar.MenuButton>
-        <Sidebar.MenuButton
-          class="text-bold text-xl justify-between"
-          onclick={() => goto("/discover")}
-        >
-          Cards
-          <Icon class="!size-6" icon="mdi:cards-playing-outline" />
+        <Sidebar.MenuButton onclick={() => goto("/kanji")}>
+          Compare 比較
         </Sidebar.MenuButton>
       </Sidebar.Menu>
     </Sidebar.Group>

@@ -2,12 +2,35 @@
 
 @import "tw-animate-css";
 
-@import '@skeletonlabs/skeleton';
-@import '@skeletonlabs/skeleton-svelte';
-@import '@skeletonlabs/skeleton/themes/cerberus';
-@import '@skeletonlabs/skeleton/themes/nouveau';
+@import "@skeletonlabs/skeleton";
+@import "@skeletonlabs/skeleton-svelte";
+@import "@skeletonlabs/skeleton/themes/cerberus";
+@import "@skeletonlabs/skeleton/themes/nouveau";
 
 @custom-variant dark (&:is(.dark *));
+
+@utility scrollbar {
+  &::-webkit-scrollbar {
+    width: 12px;
+  }
+
+  &::-webkit-scrollbar-track {
+    border-radius: 100vh;
+    @apply bg-secondary/40 px-5;
+    height: 20px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    @apply bg-secondary;
+    pointer-events: auto;
+    padding: 8px;
+    border-radius: 6px;
+  }
+
+  &::-webkit-scrollbar-thumb:hover {
+    @apply bg-secondary/80;
+  }
+}
 
 :root {
   --radius: 0.625rem;

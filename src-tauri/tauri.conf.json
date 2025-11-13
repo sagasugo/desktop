@@ -1,8 +1,8 @@
 {
   "$schema": "https://schema.tauri.app/config/2",
-  "productName": "kanji-atlas",
+  "productName": "sugasugo",
   "version": "0.1.0",
-  "identifier": "com.reiloko4.kanji-atlas",
+  "identifier": "com.sugasugo.dev",
   "build": {
     "beforeDevCommand": "bun run dev",
     "devUrl": "http://localhost:1420",
@@ -12,10 +12,11 @@
   "app": {
     "windows": [
       {
-        "title": "Kanji Atlas",
+        "title": "SagaSugo!",
         "width": 800,
         "height": 600,
-        "center": true
+        "center": true,
+        "decorations": false
       }
     ],
     "security": {
