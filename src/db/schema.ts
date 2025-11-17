@@ -1,3 +1,4 @@
+import { relations } from "drizzle-orm";
 import {
   index,
   integer,
@@ -45,7 +46,7 @@ export const radicals = sqliteTable("radical", {
   radical: text().notNull().primaryKey(),
 });
 
-export const kanjiTranslation = sqliteTable(
+export const kanjiMeanings = sqliteTable(
   "kanji_translation",
   {
     id: integer().primaryKey({ autoIncrement: true }),
@@ -104,3 +105,28 @@ export const readings = sqliteTable("reading", {
   mainKanjis: text({ mode: "json" }).$type<string[]>().default([]),
   nameKanjis: text({ mode: "json" }).$type<string[]>().default([]),
 });
+
+export const kanjisRelations = relations(kanjis, ({ many }) => ({
+  meanings: many(kanjiMeanings),
+}));
+
+export const kanjiMeaningsRelations = relations(kanjiMeanings, ({ one }) => ({
+  kanji: one(kanjis, {
+    fields: [kanjiMeanings.kanji],
+    references: [kanjis.kanji],
+  }),
+}));
+
+export const wordsRelations = relations(words, ({ many }) => ({
+  translations: many(wordTranslations),
+}));
+
+export const wordTranslationsRelations = relations(
+  wordTranslations,
+  ({ one }) => ({
+    word: one(words, {
+      fields: [wordTranslations.writing],
+      references: [words.mainWriting],
+    }),
+  }),
+);

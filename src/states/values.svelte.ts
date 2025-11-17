@@ -1,6 +1,5 @@
-import type { Kanji } from "@/type"
+import type { Kanji } from "@/type";
 
-export let kanjiShowed = new class {
-  value: Kanji | null = $state(null)
-}
-
+export let selectedKanji = new (class {
+  k: Kanji | null = $state(null);
+})();

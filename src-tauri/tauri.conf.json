@@ -15,12 +15,19 @@
         "title": "SagaSugo!",
         "width": 800,
         "height": 600,
+        "minWidth": 600,
+        "minHeight": 400,
         "center": true,
-        "decorations": false
+        "decorations": false,
+        "backgroundColor": "#0a0a0a"
       }
     ],
     "security": {
-      "csp": null
+      "csp": "http://asset.localhost",
+      "assetProtocol": {
+        "enable": true,
+        "scope": ["**/*"]
+      }
     }
   },
   "bundle": {
@@ -32,6 +39,9 @@
       "icons/128x128@2x.png",
       "icons/icon.icns",
       "icons/icon.ico"
-    ]
+    ],
+    "resources": {
+      "../static/*": "static/"
+    }
   }
 }

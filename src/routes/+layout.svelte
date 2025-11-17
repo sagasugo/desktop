@@ -2,19 +2,30 @@
   import "@/app.css";
   import { cn } from "@/lib/utils";
   import { themeMode } from "@/states";
-  import { Sidebar } from "@/components";
+  import { KanjiShow, Sidebar } from "@/components";
   import { Sidebar as SidebarProv } from "@/lib/components";
+  import Titlebar from "@/components/Titlebar.svelte";
+  import { onMount } from "svelte";
+  import { checkDataset } from "@/setup";
 
   let { children } = $props();
+  onMount(() => {
+    checkDataset();
+  });
 </script>
 
+<KanjiShow />
 <div
-  data-theme="nouveau"
-  class={cn(themeMode.value, "w-screen h-screen flex bg-background")}
+  data-theme="cerberus"
+  class={cn(
+    themeMode.value,
+    "w-screen h-screen overflow-hidden flex bg-background",
+  )}
 >
   <SidebarProv.Provider>
     <Sidebar />
     <SidebarProv.Inset>
+      <Titlebar />
       {@render children?.()}
     </SidebarProv.Inset>
   </SidebarProv.Provider>

@@ -1,5 +1,14 @@
 export * as Sidebar from "./ui/sidebar/";
+export * as Command from "./ui/command/";
+export * as Dialog from "./ui/dialog/";
+export * as Popover from "./ui/popover/";
+export * as AlertDialog from "./ui/alert-dialog/";
+export * as Select from "./ui/select/";
+export * as Drawer from "./ui/drawer/";
+export * as Sheet from "./ui/sheet/";
 export { Button } from "./ui/button/";
-export { Separator } from "./ui/separator/"
-export { Input } from "./ui/input/"
-
+export { Separator } from "./ui/separator/";
+export { Input } from "./ui/input/";
+export { Label } from "./ui/label/";
+export { Badge } from "./ui/badge/";
+export * from "./ui/button/";
