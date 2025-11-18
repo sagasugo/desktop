@@ -5,6 +5,7 @@
   import { toHiragana } from "wanakana";
   import type { Word } from "@/type";
   import { ScrollingValue } from "svelte-ux";
+  import { WordCard } from "@/components";
 
   let search = $state("");
   let searchKana = $derived(
@@ -53,13 +54,7 @@
     tabindex={-1}
   >
     {#snippet children(word: Word, _)}
-      <div class="w-full flex justify-center">
-        <Button class="w-100 rounded-sm" variant="outline">
-          <Label class="text-xl">
-            {word.mainWriting}
-          </Label>
-        </Button>
-      </div>
+      <WordCard {word} />
     {/snippet}
   </VList>
 </div>

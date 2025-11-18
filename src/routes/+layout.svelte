@@ -2,7 +2,7 @@
   import "@/app.css";
   import { cn } from "@/lib/utils";
   import { themeMode } from "@/states";
-  import { KanjiShow, Sidebar } from "@/components";
+  import { KanjiShow, Sidebar, WordShow } from "@/components";
   import { Sidebar as SidebarProv } from "@/lib/components";
   import Titlebar from "@/components/Titlebar.svelte";
   import { onMount } from "svelte";
@@ -15,6 +15,7 @@
 </script>
 
 <KanjiShow />
+<WordShow />
 <div
   data-theme="cerberus"
   class={cn(
@@ -24,9 +25,11 @@
 >
   <SidebarProv.Provider>
     <Sidebar />
-    <SidebarProv.Inset>
+    <!-- <SidebarProv.Inset> -->
+    <div class="w-full flex flex-col">
       <Titlebar />
       {@render children?.()}
-    </SidebarProv.Inset>
+    </div>
+    <!-- </SidebarProv.Inset> -->
   </SidebarProv.Provider>
 </div>

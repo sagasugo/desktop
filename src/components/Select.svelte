@@ -91,7 +91,7 @@
         >
           <div
             class={cn(
-              "flex min-w-[60px] justify-between items-center gap-1 select-none",
+              "flex min-w-[20px] justify-between items-center gap-1 select-none",
               invertIcons ? "flex-row-reverse" : "",
             )}
           >

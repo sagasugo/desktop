@@ -6,7 +6,7 @@
   import { readText } from "tauri-plugin-clipboard-api";
 
   export const inputVariants = tv({
-    base: "flex h-10 text-sm font-medium rounded-2xl px-3 py-1 text-base shadow-sm transition-colors disabled:cursor-not-allowed disabled:opacity-50 md:text-sm autofill:none dark:text-white peer",
+    base: "flex h-10 text-sm font-medium rounded-2xl px-3 py-1 text-base shadow-sm transition-colors disabled:cursor-not-allowed disabled:opacity-50 autofill:none dark:text-white peer",
     variants: {
       variant: {
         default:

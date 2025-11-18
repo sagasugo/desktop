@@ -17,11 +17,16 @@
         <Sidebar.MenuButton
           class={cn(
             "absolute max-w-31.5 z-10 pointer-events-none transition-all duration-300",
-            page.url.pathname === "/word" && "translate-y-9",
-            page.url.pathname === "/favorite" && "translate-y-18",
+            page.url.pathname === "/kanji" && "translate-y-9",
+            page.url.pathname === "/word" && "translate-y-18",
+            page.url.pathname === "/favorite" && "translate-y-27",
           )}
           variant="outline"
         ></Sidebar.MenuButton>
+        <Sidebar.MenuButton onclick={() => goto("/kana")}>
+          <Label class="-ml-0.5">あ</Label>
+          <Label>Kana</Label>
+        </Sidebar.MenuButton>
         <Sidebar.MenuButton onclick={() => goto("/kanji")}>
           <Label class="-ml-0.5">漢</Label>
           <Label>Kanji</Label>

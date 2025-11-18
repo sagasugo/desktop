@@ -47,8 +47,8 @@
 
   let showedKanjis: Kanji[] = $derived(await getKanjisQuery.execute());
   let rowedKanjis: Kanji[][] = $derived.by(() => {
-    if (!divSize || divSize < 77) return [showedKanjis];
-    const itemsPerRow = Math.floor(divSize / 77);
+    if (!divSize || divSize < 97) return [showedKanjis];
+    const itemsPerRow = Math.floor(divSize / 97);
     return showedKanjis.reduce((acc: Kanji[][], _, i) => {
       if (i % itemsPerRow === 0)
         acc.push(showedKanjis.slice(i, i + itemsPerRow));
@@ -63,26 +63,35 @@
       "w-full h-full flex flex-col items-center p-2 gap-4 overflow-x-none",
     )}
   >
-    <div class="w-full px-12 flex justify-center items-center">
-      <Badge
-        class="h-10 w-24 flex justify-center items-center"
-        variant="outline"
-      >
-        <ScrollingValue class="-mt-4.5" value={showedKanjis.length} axis="y" />
-        Found
-      </Badge>
-      <div class="flex flex-col p-4 text-primary parent">
-        <Input
+    <div
+      class="w-full flex flex-col-reverse md:flex-row justify-center items-center gap-2"
+    >
+      <div class="flex items-center gap-2">
+        <Badge
+          class="h-10 w-24 flex justify-center items-center"
           variant="outline"
-          placeholder="Search kanjis..."
-          bind:value={search}
-        />
-        <Label class="absolute ml-2.5 mt-10">
-          {searchKana}
-        </Label>
+        >
+          <ScrollingValue
+            class="-mt-4.5"
+            value={showedKanjis.length}
+            axis="y"
+          />
+          Found
+        </Badge>
+        <div class="flex flex-col text-primary parent">
+          <Input
+            variant="outline"
+            placeholder="Search kanjis..."
+            bind:value={search}
+          />
+          <Label class="absolute ml-2.5 mt-10">
+            {searchKana}
+          </Label>
+        </div>
       </div>
       <div class="flex items-center gap-2">
         <Select
+          classPopup="w-18"
           label="JLPT"
           bind:selected={jlpt}
           items={["5", "4", "3", "2", "1"]}
