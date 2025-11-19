@@ -11,7 +11,6 @@
   import type { Kanji } from "@/type";
   import { onMount } from "svelte";
   import { ScrollingValue } from "svelte-ux";
-  import { and, eq, like, or } from "drizzle-orm";
   import { page } from "$app/state";
 
   let search = $state("");
@@ -30,14 +29,29 @@
         with: {
           meanings: true,
         },
-        where: (kanjis, { eq, like, or, and }) =>
+        where: (kanjis, { eq, like, or, and, exists, sql, isNull }) =>
           and(
-            jlpt ? eq(kanjis.jlpt, Number(jlpt)) : undefined,
+            jlpt
+              ? jlpt === "0"
+                ? isNull(kanjis.jlpt)
+                : eq(kanjis.jlpt, Number(jlpt))
+              : undefined,
             grade ? eq(kanjis.grade, Number(grade)) : undefined,
             search !== ""
               ? or(
-                  like(kanjis.mainOnReading, `%${searchKana}%`),
-                  like(kanjis.mainKunReading, `%${searchKana}%`),
+                  like(kanjis.onReadings, `%${searchKana}%`),
+                  like(kanjis.kunReadings, `%${searchKana}%`),
+                  exists(
+                    db
+                      .select()
+                      .from(kanjiMeanings)
+                      .where(
+                        and(
+                          eq(kanjiMeanings.kanji, kanjis.kanji),
+                          like(kanjiMeanings.meanings, `%${search}%`),
+                        ),
+                      ),
+                  ),
                 )
               : undefined,
           ),
@@ -94,8 +108,15 @@
           classPopup="w-18"
           label="JLPT"
           bind:selected={jlpt}
-          items={["5", "4", "3", "2", "1"]}
-          itemsLabel={{ "5": "N5", "4": "N4", "3": "N3", "2": "N2", "1": "N1" }}
+          items={["5", "4", "3", "2", "1", "0"]}
+          itemsLabel={{
+            "5": "N5",
+            "4": "N4",
+            "3": "N3",
+            "2": "N2",
+            "1": "N1",
+            "0": "Non JLPT",
+          }}
         />
         <Select
           label="Grade"
@@ -117,6 +138,11 @@
       </div>
     </div>
     <div class="w-full h-full" bind:clientWidth={divSize}>
+      {#if showedKanjis.length === 0}
+        <div class="w-full flex justify-center">
+          <Badge class="text-xl font-medium mt-10">Nothing found... ╥﹏╥</Badge>
+        </div>
+      {/if}
       <VList
         class="w-full h-40 flex gap-1 justify-center items-center overflow-y-scroll overflow-x-none scrollbar scroll-smooth"
         data={rowedKanjis}

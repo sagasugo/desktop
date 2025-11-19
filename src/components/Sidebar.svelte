@@ -1,6 +1,6 @@
 <script lang="ts">
   import { themeMode } from "@/states";
-  import { Sidebar, Button, Label } from "@/lib/components";
+  import { Sidebar, Label } from "@/lib/components";
   import { cn } from "@/lib/utils";
   import { page } from "$app/state";
   import { goto } from "$app/navigation";
@@ -20,24 +20,29 @@
             page.url.pathname === "/kanji" && "translate-y-9",
             page.url.pathname === "/word" && "translate-y-18",
             page.url.pathname === "/favorite" && "translate-y-27",
+            page.url.pathname === "/library" && "translate-y-36",
           )}
           variant="outline"
         ></Sidebar.MenuButton>
         <Sidebar.MenuButton onclick={() => goto("/kana")}>
-          <Label class="-ml-0.5">あ</Label>
+          <Icon class="size-6! -ml-1" icon="uil:letter-japanese-a" />
           <Label>Kana</Label>
         </Sidebar.MenuButton>
         <Sidebar.MenuButton onclick={() => goto("/kanji")}>
-          <Label class="-ml-0.5">漢</Label>
+          <Icon class="size-6! -ml-1" icon="material-symbols:kanji-alcohol" />
           <Label>Kanji</Label>
         </Sidebar.MenuButton>
         <Sidebar.MenuButton onclick={() => goto("/word")}>
-          <Label class="-ml-0.5">言</Label>
+          <Icon class="size-6! -ml-1" icon="lucide:text" />
           <Label>Word</Label>
         </Sidebar.MenuButton>
         <Sidebar.MenuButton onclick={() => goto("/favorite")}>
-          <Icon class="size-6! -ml-1" icon="lucide:star" />
+          <Icon class="size-6! -ml-1" icon="heroicons:star-20-solid" />
           <Label>Favorites</Label>
+        </Sidebar.MenuButton>
+        <Sidebar.MenuButton onclick={() => goto("/library")}>
+          <Icon class="size-6! -ml-1" icon="lucide:library" />
+          <Label>Library</Label>
         </Sidebar.MenuButton>
       </Sidebar.Menu>
     </Sidebar.Group>

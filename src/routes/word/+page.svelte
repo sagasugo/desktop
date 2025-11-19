@@ -6,6 +6,7 @@
   import type { Word } from "@/type";
   import { ScrollingValue } from "svelte-ux";
   import { WordCard } from "@/components";
+  import { wordTranslations } from "@/db/schema";
 
   let search = $state("");
   let searchKana = $derived(
@@ -21,7 +22,23 @@
         with: {
           translations: true,
         },
-        where: (words, { like }) => like(words.mainReading, `%${searchKana}%`),
+        where: (words, { eq, like, exists, or, and }) =>
+          search !== ""
+            ? or(
+                like(words.mainReading, `%${searchKana}%`),
+                exists(
+                  db
+                    .select()
+                    .from(wordTranslations)
+                    .where(
+                      and(
+                        eq(wordTranslations.writing, words.mainWriting),
+                        like(wordTranslations.meanings, `%${search}%`),
+                      ),
+                    ),
+                ),
+              )
+            : undefined,
         limit: 2000,
       })
       .prepare(),
@@ -48,7 +65,7 @@
     </div>
   </div>
   <VList
-    class="w-120 h-40 flex gap-2 justify-center items-center overflow-y-scroll overflow-x-none scrollbar scroll-smooth"
+    class="w-120 h-40 flex justify-center items-center overflow-y-scroll overflow-x-none scrollbar scroll-smooth"
     data={foundWords}
     getKey={(_, i) => i}
     tabindex={-1}
