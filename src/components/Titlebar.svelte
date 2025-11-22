@@ -12,7 +12,11 @@
 </script>
 
 <div class="flex justify-between h-16 w-full p-2" data-tauri-drag-region>
-  <Button class="w-9" variant="ghost" onclick={(_) => sidebar.toggle()}>
+  <Button
+    class="w-9 rounded-md"
+    variant="ghost"
+    onclick={(_) => sidebar.toggle()}
+  >
     <Icon
       class={cn(
         "size-6! text-primary! transition-all duration-500",
@@ -21,10 +25,12 @@
       icon="lucide:panel-right-open"
     />
   </Button>
-  <Label class="text-xl text-primary" data-tauri-drag-region
+  <Label class="text-xl text-primary ml-16" data-tauri-drag-region
     >{titleCase(page.route.id?.replace("/", ""))}</Label
   >
-  <div class="flex [&>*]:w-9 [&>*]:text-primary! [&>*]:hover:text-primary/70!">
+  <div
+    class="flex [&>*]:w-9 [&>*]:rounded-md [&>*]:text-primary! [&>*]:hover:text-primary/70!"
+  >
     <Button variant="ghost" onclick={(_) => window.minimize()}>
       <Icon class="size-6!" icon="lucide:minus" />
     </Button>

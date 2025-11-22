@@ -1,7 +1,6 @@
 <script lang="ts">
   import { VList } from "virtua/svelte";
   import { toHiragana, toRomaji } from "wanakana";
-  import { fdppp as kanji } from "@/constants";
   import { Badge, Input, Label, Separator } from "@/lib/components";
   import { KanjiCard, KanjiShow, Select } from "@/components";
   import { selectedKanji } from "@/states";
@@ -29,7 +28,7 @@
         with: {
           meanings: true,
         },
-        where: (kanjis, { eq, like, or, and, exists, sql, isNull }) =>
+        where: (kanjis, { eq, like, or, and, exists, isNull }) =>
           and(
             jlpt
               ? jlpt === "0"
@@ -98,7 +97,7 @@
             placeholder="Search kanjis..."
             bind:value={search}
           />
-          <Label class="absolute ml-2.5 mt-10">
+          <Label class="absolute ml-2.5 mt-8">
             {searchKana}
           </Label>
         </div>

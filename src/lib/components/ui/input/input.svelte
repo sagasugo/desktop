@@ -4,6 +4,8 @@
   import { type VariantProps, tv } from "tailwind-variants";
   import { cn } from "$lib/utils.js";
   import { readText } from "tauri-plugin-clipboard-api";
+  import Button from "../button/button.svelte";
+  import Icon from "@iconify/svelte";
 
   export const inputVariants = tv({
     base: "flex h-10 text-sm font-medium rounded-2xl px-3 py-1 text-base shadow-sm transition-colors disabled:cursor-not-allowed disabled:opacity-50 autofill:none dark:text-white peer",
@@ -41,6 +43,7 @@
     variant?: InputVariant;
     borderFocus?: InputBorderFocus;
     floatingLabel?: boolean;
+    clearButton?: boolean;
     rightToCopy?: boolean;
     labelClass?: string;
     divClass?: string;
@@ -58,6 +61,7 @@
     variant = "default",
     borderFocus = false,
     floatingLabel = false,
+    clearButton = true,
     rightToCopy = true,
     required = false,
     onenter,
@@ -98,8 +102,8 @@
       inputVariants({
         variant: !required || value.length > 0 ? variant : "destructive",
         borderFocus,
-        className,
       }),
+      className,
     )}
     bind:value
     {...restProps}
@@ -116,12 +120,26 @@
     <label
       for={inputId}
       class={cn(
-        labelClass,
         disabled ? "cursor-not-allowed" : "cursor-text",
         value === "" && "translate-y-0! top-[25%]! scale-100!",
         "text-sm font-medium absolute select-none text-gray-800 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-left px-2 peer-focus:px-2 peer-focus:text-gray-900 peer-focus:dark:text-gray-400 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1",
+        labelClass,
       )}
       >{placeholder}
     </label>
+  {/if}
+  {#if clearButton}
+    <Button
+      class={cn(
+        "size-6! px-0 absolute -top-0.5 right-0 transition-all duration-400 opacity-0",
+        value !== "" && clearButton && !disabled
+          ? "opacity-100"
+          : "pointer-events-none",
+      )}
+      variant="outline"
+      onclick={clear}
+    >
+      <Icon icon="lucide:x" />
+    </Button>
   {/if}
 </button>

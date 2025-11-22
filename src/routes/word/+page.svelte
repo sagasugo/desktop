@@ -39,6 +39,7 @@
                 ),
               )
             : undefined,
+        orderBy: (words, { asc }) => [asc(words.mainReading)],
         limit: 2000,
       })
       .prepare(),
