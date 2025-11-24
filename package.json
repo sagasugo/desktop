@@ -12,6 +12,9 @@
     "tauri": "tauri"
   },
   "license": "MIT",
+  "prettier": {
+    "arrowParens": "avoid"
+  },
   "dependencies": {
     "@iconify/svelte": "^5.0.2",
     "@tauri-apps/api": "^2",
@@ -32,6 +35,13 @@
     "wanakana": "^5.3.1"
   },
   "devDependencies": {
+    "@fontsource-variable/noto-sans-jp": "^5.2.9",
+    "@fontsource-variable/noto-serif-jp": "^5.2.8",
+    "@fontsource/dotgothic16": "^5.2.8",
+    "@fontsource/kiwi-maru": "^5.2.8",
+    "@fontsource/klee-one": "^5.2.8",
+    "@fontsource/reggae-one": "^5.2.8",
+    "@fontsource/yuji-mai": "^5.2.7",
     "@iconify-json/material-symbols": "^1.2.46",
     "@iconify-json/mdi": "^1.2.3",
     "@internationalized/date": "^3.10.0",

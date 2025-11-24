@@ -1,8 +1,15 @@
 <script lang="ts">
   import "@/app.css";
+  import "@fontsource-variable/noto-sans-jp";
+  import "@fontsource-variable/noto-serif-jp";
+  import "@fontsource/kiwi-maru";
+  import "@fontsource/klee-one";
+  import "@fontsource/yuji-mai";
+  import "@fontsource/dotgothic16";
+  import "@fontsource/reggae-one";
   import { cn } from "@/lib/utils";
-  import { themeMode } from "@/states";
-  import { KanjiShow, Sidebar, WordShow } from "@/components";
+  import { appFont, themeMode } from "@/states";
+  import { ItemShow, Sidebar } from "@/components";
   import { Sidebar as SidebarProv } from "@/lib/components";
   import Titlebar from "@/components/Titlebar.svelte";
   import { onMount } from "svelte";
@@ -14,14 +21,14 @@
   });
 </script>
 
-<KanjiShow />
-<WordShow />
+<ItemShow />
 <div
-  data-theme="cerberus"
+  data-theme="crimson"
   class={cn(
+    "w-screen h-screen fontroot overflow-hidden flex bg-background",
     themeMode.value,
-    "w-screen h-screen overflow-hidden flex bg-background",
   )}
+  style="--appfont: {appFont.font}"
 >
   <SidebarProv.Provider>
     <Sidebar />
@@ -33,3 +40,11 @@
     <!-- </SidebarProv.Inset> -->
   </SidebarProv.Provider>
 </div>
+
+<style>
+  .kanji-font :global(*) {
+    font-family:
+      var(--appFont), "Klee One", "Noto Sans JP", "Yuji Mai", "Kiwi Maru",
+      "Noto Serif JP", "-apple-system", "system-ui";
+  }
+</style>

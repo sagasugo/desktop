@@ -1,7 +1,7 @@
 <script lang="ts">
   import { Label } from "@/lib/components";
   import { cn } from "@/lib/utils";
-  import { selectedKanji } from "@/states";
+  import { selectedItem } from "@/states";
   import type { Kanji } from "@/type";
 
   let {
@@ -13,13 +13,12 @@
 
 <button
   class={cn(
-    "btn w-[90px] min-w-[90px] preset-outlined-tertiary-500 hover:preset-filled-tertiary-500 text-primary hover:text-primary/90",
-    "flex flex-col items-center py-6 transition-all duration-300 select-none rounded-sm [&>*]:cursor-pointer",
-    selectedKanji.k?.kanji === k.kanji && "preset-filled-tertiary-500",
+    "w-[90px] min-w-[90px] flex flex-col gap-2 border-2 border-pink-900 hover:bg-pink-800 text-primary hover:text-primary/90",
+    "flex flex-col items-center py-6 transition-all duration-300 select-none rounded-md [&>*]:cursor-pointer",
+    selectedItem.matchKanji(k.kanji) && "bg-pink-500",
   )}
   onclick={() => {
-    selectedKanji.k =
-      selectedKanji.k === null || selectedKanji.k.kanji !== k.kanji ? k : null;
+    selectedItem.value = selectedItem.matchKanji(k.kanji) ? null : k;
   }}
 >
   <p
@@ -27,10 +26,10 @@
   >
     {k.meanings?.[0]?.keyword?.trim()}
   </p>
-  <Label class="text-3xl">
+  <Label class="hover:text-primary! text-3xl kanji-font z-10">
     {k.kanji}
   </Label>
-  <Label>
+  <Label class="kanji-font">
     {k.mainOnReading ?? k.mainKunReading}
   </Label>
 </button>

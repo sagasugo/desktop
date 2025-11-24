@@ -23,6 +23,13 @@
         "wanakana": "^5.3.1",
       },
       "devDependencies": {
+        "@fontsource-variable/noto-sans-jp": "^5.2.9",
+        "@fontsource-variable/noto-serif-jp": "^5.2.8",
+        "@fontsource/dotgothic16": "^5.2.8",
+        "@fontsource/kiwi-maru": "^5.2.8",
+        "@fontsource/klee-one": "^5.2.8",
+        "@fontsource/reggae-one": "^5.2.8",
+        "@fontsource/yuji-mai": "^5.2.7",
         "@iconify-json/material-symbols": "^1.2.46",
         "@iconify-json/mdi": "^1.2.3",
         "@internationalized/date": "^3.10.0",
@@ -112,6 +119,20 @@
     "@floating-ui/dom": ["@floating-ui/dom@1.7.4", "", { "dependencies": { "@floating-ui/core": "^1.7.3", "@floating-ui/utils": "^0.2.10" } }, "sha512-OOchDgh4F2CchOX94cRVqhvy7b3AFb+/rQXyswmzmGakRfkMgoWVjfnLWkRirfLEfuD4ysVW16eXzwt3jHIzKA=="],
 
     "@floating-ui/utils": ["@floating-ui/utils@0.2.10", "", {}, "sha512-aGTxbpbg8/b5JfU1HXSrbH3wXZuLPJcNEcZQFMxLs3oSzgtVu6nFPkbbGGUvBcUjKV2YyB9Wxxabo+HEH9tcRQ=="],
+
+    "@fontsource-variable/noto-sans-jp": ["@fontsource-variable/noto-sans-jp@5.2.9", "", {}, "sha512-osPL5f7dvGDjuMuFwDTGPLG37030D8X5zk+3BWea6txAVDFeE/ZIrKW0DY0uSDfRn9+NiKbiFn/2QvZveKXTog=="],
+
+    "@fontsource-variable/noto-serif-jp": ["@fontsource-variable/noto-serif-jp@5.2.8", "", {}, "sha512-NnECs1fvAPqWWdI1/VtUrtgTq3i9VaML34Aa4KqHbbsgK1ozqAe2Tq7lnl0Sm30Kjbb7wk6c4JpJAyaaE7ezog=="],
+
+    "@fontsource/dotgothic16": ["@fontsource/dotgothic16@5.2.8", "", {}, "sha512-kKLp0jtNURDwQwdBBHB7CFs/i5b6MVPNVEOy8EFbdWwKT9xQZbQqYIEjW1nKayqcs0Uh6imBCeUFuIBufEJK4w=="],
+
+    "@fontsource/kiwi-maru": ["@fontsource/kiwi-maru@5.2.8", "", {}, "sha512-2ENkh90aXGQDmhClqkrIjDpFJ1BQIuVeVKcYQC7ZYKbUcybBdth8mTAIkEPJsfMKc1RX7S63QMr9B+Bk/FtXjA=="],
+
+    "@fontsource/klee-one": ["@fontsource/klee-one@5.2.8", "", {}, "sha512-DBJgwhCH1RLtwwqGtcQFa97KZikjYPWyotJaAZzgJTP/7VnARPsMMT4iQhHZzzdrT0fR9vKY55R+DkocRC6Uhw=="],
+
+    "@fontsource/reggae-one": ["@fontsource/reggae-one@5.2.8", "", {}, "sha512-pRyMofg5J3U9ae6KAYwufXxZXckPegUveeoDha8HLqKHwLKew2QFyrGP7hxTCWJMW3S+zOiJKofJfQnCV71otQ=="],
+
+    "@fontsource/yuji-mai": ["@fontsource/yuji-mai@5.2.7", "", {}, "sha512-JRB3/sOnLyx4XuoTcjtGWgwNSCdHWRaA+vnRYF1XpKeAQRxRKTSnSxyUtLIZvzM7KiH3br1yIea4DrwD6aQzIw=="],
 
     "@iconify-json/material-symbols": ["@iconify-json/material-symbols@1.2.46", "", { "dependencies": { "@iconify/types": "*" } }, "sha512-cNWdSAa5Z3f0TlqdCt28rmeYWGKwe68J1ORdyHyqC4D6H7CWiVKBJXV3TDTocOQVDO372bz+cmsFeo4+pbRy+A=="],
 

@@ -7,6 +7,7 @@
   import { ScrollingValue } from "svelte-ux";
   import { WordCard } from "@/components";
   import { wordTranslations } from "@/db/schema";
+  import { onMount } from "svelte";
 
   let search = $state("");
   let searchKana = $derived(
@@ -15,6 +16,7 @@
       "",
     ),
   );
+  let mounted = $state(false);
 
   let getWordsQuery = $derived(
     db.query.words
@@ -45,7 +47,13 @@
       .prepare(),
   );
 
-  let foundWords: Word[] = $derived(await getWordsQuery.execute());
+  let foundWords: Word[] = $derived(
+    mounted ? await getWordsQuery.execute() : [],
+  );
+
+  onMount(() => {
+    mounted = true;
+  });
 </script>
 
 <div class="flex flex-col justify-start items-center w-full h-full">
@@ -60,13 +68,13 @@
         placeholder="Search words..."
         bind:value={search}
       />
-      <Label class="absolute ml-2.5 mt-10">
-        {searchKana}
+      <Label class="absolute ml-2.5 mt-10 kanji-font">
+        {$state.eager(searchKana)}
       </Label>
     </div>
   </div>
   <VList
-    class="w-120 h-40 flex justify-center items-center overflow-y-scroll overflow-x-none scrollbar scroll-smooth"
+    class="w-120 h-40 flex justify-center items-center overflow-y-scroll overflow-x-none scrollbar-hide scroll-smooth"
     data={foundWords}
     getKey={(_, i) => i}
     tabindex={-1}

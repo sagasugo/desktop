@@ -1,18 +1,28 @@
 <script lang="ts">
   import { Button, Label } from "@/lib/components";
-  import { toRomaji } from "wanakana";
+  import { cn } from "@/lib/utils";
+  import { kanaPage } from "@/states";
+  import type { Kana } from "@/type";
 
-  const { kana }: { kana: string } = $props();
+  const { kana }: { kana: Kana } = $props();
 </script>
 
 <Button
-  class="flex-col h-20 gap-0 rounded-md [&_*]:cursor-pointer"
+  class={cn(
+    "h-24 flex-col gap-0 rounded-md transition-all duration-500 [&_*]:cursor-pointer border-pink-900 hover:bg-pink-800",
+    !kanaPage.showRomaji && "h-18",
+  )}
   variant="outline"
 >
-  <Label class="text-4xl">
-    {kana}
+  <Label class="text-4xl kanji-font transition-all duration-500">
+    {kana.literal}
   </Label>
-  <Label class="text-xl">
-    {toRomaji(kana)}
+  <Label
+    class={cn(
+      "text-xl transition-all duration-500",
+      !kanaPage.showRomaji && "h-0 opacity-0 translate-y-2",
+    )}
+  >
+    {kana.romaji}
   </Label>
 </Button>

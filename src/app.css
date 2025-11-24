@@ -4,8 +4,7 @@
 
 @import "@skeletonlabs/skeleton";
 @import "@skeletonlabs/skeleton-svelte";
-@import "@skeletonlabs/skeleton/themes/cerberus";
-@import "@skeletonlabs/skeleton/themes/nouveau";
+@import "@skeletonlabs/skeleton/themes/crimson";
 
 @custom-variant dark (&:is(.dark *));
 
@@ -146,7 +145,22 @@
   body {
     @apply bg-background text-foreground;
   }
+  .kanji-font {
+    font-family:
+      var(--appfont),
+      "Klee One",
+      "Noto Sans JP",
+      "Yuji Mai",
+      "Kiwi Maru",
+      "Noto Serif JP",
+      -apple-system,
+      system-ui;
+  }
   .scrollbar {
+    scrollbar-width: thin;
+    scrollbar-color: #831843 transparent;
+  }
+  .scrollbar-hide {
     scrollbar-width: none;
   }
 }

@@ -73,15 +73,15 @@
           role="combobox"
           aria-expanded={open}
           tabindex={-1}
-          onwheel={(e) => {
+          onwheel={e => {
             if (wheelControls) {
               if (e.deltaY < 0) {
                 selected =
-                  items.at(items.findIndex((v) => v === selected) - 1) ??
+                  items.at(items.findIndex(v => v === selected) - 1) ??
                   items[0];
               } else {
                 selected =
-                  items.at(items.findIndex((v) => v === selected) + 1) ??
+                  items.at(items.findIndex(v => v === selected) + 1) ??
                   items[0];
               }
               onselect?.();
@@ -119,7 +119,7 @@
           <Command.Input placeholder="Search..." />
         {/if}
         <Command.Empty class="select-none">Nothing found.</Command.Empty>
-        <Command.List class="scrollbar">
+        <Command.List class="scrollbar-hide">
           <Command.Group>
             {#each items as item}
               <Command.Item

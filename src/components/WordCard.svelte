@@ -1,7 +1,7 @@
 <script lang="ts">
   import { Label } from "@/lib/components";
   import { cn } from "@/lib/utils";
-  import { selectedWord } from "@/states";
+  import { selectedItem } from "@/states";
   import type { Word } from "@/type";
 
   let {
@@ -14,33 +14,29 @@
 <div class="w-full flex justify-center">
   <button
     class={cn(
-      "btn w-[80vw] h-30 preset-outlined-tertiary-500 hover:preset-filled-tertiary-500 text-primary hover:text-primary/90 mb-1 overflow-hidden",
+      "w-[80vw] h-30 flex flex-col gap-2 border-2 border-pink-900 hover:bg-pink-800 text-primary hover:text-primary/90 mb-1 overflow-hidden",
       "flex flex-col items-center transition-all duration-300 select-none rounded-sm",
-      selectedWord.w?.mainWriting === w.mainWriting &&
-        "preset-filled-tertiary-500",
+      selectedItem.matchWord(w.mainWriting) && "bg-pink-500",
     )}
     onclick={() => {
-      selectedWord.w =
-        selectedWord.w === null || selectedWord.w.mainWriting !== w.mainWriting
-          ? w
-          : null;
+      selectedItem.value = selectedItem.matchWord(w.mainWriting) ? null : w;
     }}
   >
     <div class="w-full h-full flex items-center">
       <div
         class="w-6/8 h-full flex flex-col justify-center items-center [&>*]:cursor-pointer"
       >
-        <Label class="text-xl">
+        <Label class="text-xl kanji-font">
           {w.mainReading}
         </Label>
-        <Label class="text-4xl">
+        <Label class="text-4xl kanji-font">
           {w.mainWriting}
         </Label>
         <Label class="break-all">
           {w.translations?.[0]?.mainMeaning}
         </Label>
       </div>
-      <p class="w-2/8 text-2xl font-medium">
+      <p class="w-2/8 text-2xl font-medium kanji-font">
         {w.mainKanjis}
       </p>
     </div>

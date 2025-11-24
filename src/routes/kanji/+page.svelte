@@ -2,8 +2,7 @@
   import { VList } from "virtua/svelte";
   import { toHiragana, toRomaji } from "wanakana";
   import { Badge, Input, Label, Separator } from "@/lib/components";
-  import { KanjiCard, KanjiShow, Select } from "@/components";
-  import { selectedKanji } from "@/states";
+  import { KanjiCard, Select } from "@/components";
   import { cn } from "@/lib/utils";
   import { db } from "@/db/client";
   import { kanjis, kanjiMeanings } from "@/db/schema";
@@ -22,6 +21,7 @@
   let jlpt = $state("");
   let grade = $state("");
   let divSize = $state(0);
+  let mounted = $state(false);
   let getKanjisQuery = $derived(
     db.query.kanjis
       .findMany({
@@ -58,7 +58,9 @@
       .prepare(),
   );
 
-  let showedKanjis: Kanji[] = $derived(await getKanjisQuery.execute());
+  let showedKanjis: Kanji[] = $derived(
+    mounted ? await getKanjisQuery.execute() : [],
+  );
   let rowedKanjis: Kanji[][] = $derived.by(() => {
     if (!divSize || divSize < 97) return [showedKanjis];
     const itemsPerRow = Math.floor(divSize / 97);
@@ -67,6 +69,10 @@
         acc.push(showedKanjis.slice(i, i + itemsPerRow));
       return acc;
     }, []);
+  });
+
+  onMount(() => {
+    mounted = true;
   });
 </script>
 
@@ -86,7 +92,7 @@
         >
           <ScrollingValue
             class="-mt-4.5"
-            value={showedKanjis.length}
+            value={$state.eager(showedKanjis.length)}
             axis="y"
           />
           Found
@@ -97,8 +103,8 @@
             placeholder="Search kanjis..."
             bind:value={search}
           />
-          <Label class="absolute ml-2.5 mt-8">
-            {searchKana}
+          <Label class="absolute ml-2.5 mt-8 kanji-font">
+            {$state.eager(searchKana)}
           </Label>
         </div>
       </div>
@@ -143,8 +149,9 @@
         </div>
       {/if}
       <VList
-        class="w-full h-40 flex gap-1 justify-center items-center overflow-y-scroll overflow-x-none scrollbar scroll-smooth"
+        class="w-full h-40 flex gap-1 justify-center items-center overflow-y-scroll overflow-x-none scrollbar-hide scroll-smooth"
         data={rowedKanjis}
+        bufferSize={1000}
         getKey={(_, i) => i}
         tabindex={-1}
       >

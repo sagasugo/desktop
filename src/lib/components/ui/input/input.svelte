@@ -103,6 +103,7 @@
         variant: !required || value.length > 0 ? variant : "destructive",
         borderFocus,
       }),
+      value === "" && "select-none",
       className,
     )}
     bind:value
