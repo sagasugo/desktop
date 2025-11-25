@@ -33,8 +33,34 @@ export const appFont = new class {
     } else {
       this.#value++
     }
-
-    console.log(this.font)
   }
 
+}
+
+export const speech = new class {
+  isJPAvailable = $state(false)
+
+  constructor() {
+    window.speechSynthesis.onvoiceschanged = () => this.checkAvailable()
+  }
+
+  speak(text: string | null | undefined) {
+    if (!text || !this.checkAvailable()) return;
+    const toSpeak = new window.SpeechSynthesisUtterance();
+    toSpeak.lang = "ja-JP";
+    toSpeak.text = text
+    window.speechSynthesis.speak(toSpeak);
+  }
+
+  checkAvailable(): boolean {
+    const reco = window.speechSynthesis;
+    for (let voice of reco.getVoices()) {
+      if (voice.lang === "ja-JP") {
+        this.isJPAvailable = true
+        return true;
+      }
+    }
+    this.isJPAvailable = false
+    return false
+  }
 }

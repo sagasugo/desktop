@@ -8,7 +8,7 @@
 </script>
 
 <div class="w-full h-full flex flex-col items-center gap-2">
-  <div class="flex items-center gap-2">
+  <div class="flex flex-col-reverse md:flex-row items-center gap-2">
     <div
       class="flex gap-1 p-1 rounded-2xl relative select-none bg-secondary/50 font-medium [&>*]:rounded-xl [&_label]:z-10 [&_*]:cursor-pointer"
     >
@@ -26,34 +26,36 @@
         <Label>Katakana</Label>
       </Button>
     </div>
-    <Button
-      variant="outline"
-      onclick={() => (kanaPage.showRomaji = !kanaPage.showRomaji)}
-    >
-      Romaji
-      <Icon
-        class={cn(
-          "size-4! transition-all duration-500",
-          kanaPage.showRomaji && "-rotate-180",
-        )}
-        icon={kanaPage.showRomaji
-          ? "material-symbols:visibility-outline-rounded"
-          : "material-symbols:visibility-off-outline-rounded"}
-      />
-    </Button>
-    <Button
-      variant="outline"
-      onclick={() => (kanaPage.isVertical = !kanaPage.isVertical)}
-    >
-      {kanaPage.isVertical ? "Vertical" : "Horizontal"}
-      <Icon
-        class={cn(
-          "size-4! transition-all duration-300",
-          kanaPage.isVertical && "rotate-90",
-        )}
-        icon="material-symbols:table-rows-rounded"
-      />
-    </Button>
+    <div class="flex gap-1.5">
+      <Button
+        variant="outline"
+        onclick={() => (kanaPage.showRomaji = !kanaPage.showRomaji)}
+      >
+        Romaji
+        <Icon
+          class={cn(
+            "size-4! transition-all duration-500",
+            kanaPage.showRomaji && "-rotate-180",
+          )}
+          icon={kanaPage.showRomaji
+            ? "material-symbols:visibility-outline-rounded"
+            : "material-symbols:visibility-off-outline-rounded"}
+        />
+      </Button>
+      <Button
+        variant="outline"
+        onclick={() => (kanaPage.isVertical = !kanaPage.isVertical)}
+      >
+        {kanaPage.isVertical ? "Vertical" : "Horizontal"}
+        <Icon
+          class={cn(
+            "size-4! transition-all duration-300",
+            kanaPage.isVertical && "rotate-90",
+          )}
+          icon="material-symbols:table-rows-rounded"
+        />
+      </Button>
+    </div>
   </div>
   <div
     class="w-full h-full pt-2 overflow-y-scroll overflow-x-hidden scrollbar-hide"

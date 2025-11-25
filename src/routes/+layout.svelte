@@ -8,20 +8,21 @@
   import "@fontsource/dotgothic16";
   import "@fontsource/reggae-one";
   import { cn } from "@/lib/utils";
-  import { appFont, themeMode } from "@/states";
-  import { ItemShow, Sidebar } from "@/components";
+  import { appFont, speech, themeMode } from "@/states";
+  import { KanjiWordShow, Sidebar } from "@/components";
   import { Sidebar as SidebarProv } from "@/lib/components";
   import Titlebar from "@/components/Titlebar.svelte";
   import { onMount } from "svelte";
-  import { checkDataset } from "@/setup";
+  import { checkDataset } from "@/core";
 
   let { children } = $props();
   onMount(() => {
     checkDataset();
+    speech.checkAvailable();
   });
 </script>
 
-<ItemShow />
+<KanjiWordShow />
 <div
   data-theme="crimson"
   class={cn(

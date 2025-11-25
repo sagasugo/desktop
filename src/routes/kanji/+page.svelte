@@ -38,8 +38,13 @@
             grade ? eq(kanjis.grade, Number(grade)) : undefined,
             search !== ""
               ? or(
-                  like(kanjis.onReadings, `%${searchKana}%`),
-                  like(kanjis.kunReadings, `%${searchKana}%`),
+                  eq(kanjis.kanji, search),
+                  searchKana
+                    ? like(kanjis.onReadings, `%${searchKana}%`)
+                    : undefined,
+                  searchKana
+                    ? like(kanjis.kunReadings, `%${searchKana}%`)
+                    : undefined,
                   exists(
                     db
                       .select()
@@ -74,6 +79,8 @@
   onMount(() => {
     mounted = true;
   });
+
+  $inspect(search);
 </script>
 
 <div class="w-full h-full flex !overflow-x-none">

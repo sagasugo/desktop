@@ -27,7 +27,9 @@
         where: (words, { eq, like, exists, or, and }) =>
           search !== ""
             ? or(
-                like(words.mainReading, `%${searchKana}%`),
+                searchKana
+                  ? like(words.mainReading, `%${searchKana}%`)
+                  : undefined,
                 exists(
                   db
                     .select()

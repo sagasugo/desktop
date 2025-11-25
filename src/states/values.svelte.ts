@@ -1,4 +1,4 @@
-import type { Kanji, Word } from "@/type";
+import type { Kana, Kanji, Particle, Word } from "@/type";
 
 export let selectedItem = new class {
   #value: Kanji | Word | null = $state(null);
@@ -34,4 +34,8 @@ export let selectedItem = new class {
 
 }
 
+// kana or particle
+export let selectedKanaP = new class {
+  value: Kana | Particle | null = $state(null)
+}
 
