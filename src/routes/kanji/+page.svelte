@@ -79,8 +79,6 @@
   onMount(() => {
     mounted = true;
   });
-
-  $inspect(search);
 </script>
 
 <div class="w-full h-full flex !overflow-x-none">
