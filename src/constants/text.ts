@@ -1,0 +1,72 @@
+export const textByLanguage = {
+  en: {
+    page: {
+      kana: "Kana",
+      kanji: "Kanji",
+      word: "Words",
+      saved: "Saveds",
+    },
+    btn: {
+      theme: "Theme",
+      font: "Font",
+      hear: "Hear",
+      copy: "Copy",
+      copySucessful: "Copied!",
+      save: "Save",
+      cancel: "Cancel",
+      remove: "Remove",
+      addNote: "Add note",
+      editNote: "Edit note",
+    },
+    input: {
+      kanji: "Search kanjis...",
+      word: "Search words...",
+    },
+    badge: {
+      count: "Found",
+      stroke: "Strokes",
+      notFound: "Nothing found... ",
+      notes: "Notes",
+      meanings: "Meanings",
+      variants: "Variants",
+    },
+    tooltip: {
+      hear: "You need japanese language installed to hear words",
+    },
+  },
+  pt: {
+    page: {
+      kana: "Kana",
+      kanji: "Kanji",
+      word: "Palavras",
+      saved: "Salvos",
+    },
+    btn: {
+      theme: "Tema",
+      font: "Fonte",
+      hear: "Ouvir",
+      copy: "Copiar",
+      copySucessful: "Copiado!",
+      save: "Salvar",
+      cancel: "Cancelar",
+      remove: "Remover",
+      addNote: "Criar nota",
+      editNote: "Editar nota",
+    },
+    input: {
+      kanji: "Pesquise kanjis...",
+      word: "Pesquise palavras...",
+    },
+    badge: {
+      count: "Encontrados",
+      stroke: "Traços",
+      notFound: "Nada encontrado...",
+      notes: "Notas",
+      meanings: "Significados",
+      variants: "Variantes",
+    },
+    tooltip: {
+      hear: "Para ouvir as palavras você precisa instalar Japonês em sua máquina",
+    },
+  },
+};

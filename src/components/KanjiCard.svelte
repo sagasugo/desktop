@@ -1,4 +1,6 @@
 <script lang="ts">
+  import { db } from "@/db/client";
+  import { kanjis } from "@/db/schema";
   import { Label } from "@/lib/components";
   import { cn } from "@/lib/utils";
   import { selectedItem } from "@/states";
@@ -9,6 +11,8 @@
   }: {
     kanji: Kanji;
   } = $props();
+
+  let updatedKanji: Kanji | null = $state(null);
 </script>
 
 <button
@@ -17,12 +21,31 @@
     "flex flex-col items-center py-6 transition-all duration-300 select-none rounded-md [&>*]:cursor-pointer",
     selectedItem.matchKanji(k.kanji) && "bg-pink-500",
   )}
-  onclick={() => {
-    selectedItem.value = selectedItem.matchKanji(k.kanji) ? null : k;
+  onclick={async () => {
+    if (!updatedKanji) {
+      selectedItem.value =
+        (await db.query.kanjis.findFirst({
+          with: { saved: true, meanings: true },
+          where: (kanjis, { eq }) => eq(kanjis.kanji, k.kanji),
+        })) || null;
+    } else {
+      selectedItem.value = updatedKanji;
+    }
+    updatedKanji = null;
+  }}
+  onmouseenter={async () => {
+    updatedKanji =
+      (await db.query.kanjis.findFirst({
+        with: { saved: true, meanings: true },
+        where: (kanjis, { eq }) => eq(kanjis.kanji, k.kanji),
+      })) || null;
+  }}
+  onmouseleave={() => {
+    updatedKanji = null;
   }}
 >
   <p
-    class="w-[80px] min-w-0 font-medium text-md overflow-hidden text-center break-words"
+    class="w-[80px] min-w-0 font-medium text-md overflow-hidden text-center line-clamp-2 break-words"
   >
     {k.meanings?.[0]?.keyword?.trim()}
   </p>

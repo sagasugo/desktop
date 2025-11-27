@@ -1,4 +1,11 @@
-import { kanjiMeanings, kanjis, words, wordTranslations } from "@/db/schema";
+import {
+  kanjiMeanings,
+  kanjis,
+  savedKanjis,
+  savedWords,
+  words,
+  wordTranslations,
+} from "@/db/schema";
 
 export type Kana = {
   literal: string;
@@ -22,9 +29,11 @@ export type Particle = {
 };
 
 export type Kanji = typeof kanjis.$inferSelect & {
+  saved: typeof savedKanjis.$inferSelect | null;
   meanings: (typeof kanjiMeanings.$inferSelect)[];
 };
 
 export type Word = typeof words.$inferSelect & {
+  saved: typeof savedWords.$inferSelect | null;
   translations: (typeof wordTranslations.$inferSelect)[];
 };

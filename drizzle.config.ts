@@ -9,4 +9,5 @@ export default defineConfig({
   verbose: false,
   strict: true,
   out: "./src-tauri/migrations",
+  casing: "snake_case",
 });

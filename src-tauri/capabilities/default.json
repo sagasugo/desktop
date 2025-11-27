@@ -10,6 +10,7 @@
     "opener:default",
     "os:default",
     "sql:default",
+    "sql:allow-execute",
     "fs:default",
     "core:window:allow-start-dragging",
     "core:window:allow-close",

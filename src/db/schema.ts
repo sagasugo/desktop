@@ -24,7 +24,7 @@ export const kanjis = sqliteTable(
     radicals: text({ mode: "json" }).$type<string[]>().default([]),
     relatedWords: text({ mode: "json" }).$type<string[]>().default([]),
   },
-  (t) => [unique().on(t.kanji), index("idx_unicode_kanji").on(t.kanji)],
+  t => [unique().on(t.kanji), index("idx_unicode_kanji").on(t.kanji)],
 );
 
 export const words = sqliteTable("word", {
@@ -60,7 +60,7 @@ export const kanjiMeanings = sqliteTable(
     autoTranslated: integer({ mode: "boolean" }).default(false),
     // When AI or translation tools are used instead of a professional
   },
-  (t) => [
+  t => [
     unique().on(t.kanji, t.language),
     index("idx_unicode_translation").on(t.kanji),
   ],
@@ -78,7 +78,7 @@ export const wordTranslations = sqliteTable(
     meanings: text({ mode: "json" }).$type<string[]>().default([]),
     autoTranslated: integer({ mode: "boolean" }).default(false),
   },
-  (t) => [
+  t => [
     unique().on(t.writing, t.language),
     index("idx_unicode_word").on(t.writing),
   ],
@@ -94,7 +94,7 @@ export const radicalKeyword = sqliteTable(
     language: text().notNull(),
     keyword: text().notNull(),
   },
-  (t) => [
+  t => [
     unique().on(t.radical, t.language),
     index("idx_radical_keyword").on(t.radical),
   ],
@@ -106,8 +106,32 @@ export const readings = sqliteTable("reading", {
   nameKanjis: text({ mode: "json" }).$type<string[]>().default([]),
 });
 
-export const kanjisRelations = relations(kanjis, ({ many }) => ({
+export const savedKanjis = sqliteTable("saved_kanji", {
+  id: integer().primaryKey({ autoIncrement: true }),
+  kanji: text()
+    .notNull()
+    .references(() => kanjis.kanji),
+  notes: text().notNull().default(""),
+});
+
+export const savedWords = sqliteTable("saved_word", {
+  id: integer().primaryKey({ autoIncrement: true }),
+  mainWriting: text()
+    .notNull()
+    .references(() => words.mainWriting),
+  notes: text().notNull().default(""),
+});
+
+export const kanjisRelations = relations(kanjis, ({ one, many }) => ({
+  saved: one(savedKanjis),
   meanings: many(kanjiMeanings),
+}));
+
+export const savedKanjisRelations = relations(savedKanjis, ({ one }) => ({
+  kanji: one(kanjis, {
+    fields: [savedKanjis.kanji],
+    references: [kanjis.kanji],
+  }),
 }));
 
 export const kanjiMeaningsRelations = relations(kanjiMeanings, ({ one }) => ({
@@ -117,8 +141,16 @@ export const kanjiMeaningsRelations = relations(kanjiMeanings, ({ one }) => ({
   }),
 }));
 
-export const wordsRelations = relations(words, ({ many }) => ({
+export const wordsRelations = relations(words, ({ one, many }) => ({
+  saved: one(savedWords),
   translations: many(wordTranslations),
+}));
+
+export const savedWordsRelations = relations(savedWords, ({ one }) => ({
+  word: one(words, {
+    fields: [savedWords.mainWriting],
+    references: [words.mainWriting],
+  }),
 }));
 
 export const wordTranslationsRelations = relations(

@@ -1,3 +1,5 @@
+import { textByLanguage } from "@/constants";
+
 export const themeMode = (() => {
   let mode = $state("dark");
 
@@ -13,6 +15,15 @@ export const themeMode = (() => {
     }
   }
 })();
+
+export const appText = new class {
+  language: "en" | "pt" = $state("en")
+  v = $derived(textByLanguage[this.language])
+  languageLabel = $derived(this.language === "en" ? "English" : "Português")
+  switchLanguage = () => {
+    this.language = this.language === "en" ? "pt" : "en"
+  }
+}
 
 export const appFont = new class {
   #value = $state(0)

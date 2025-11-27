@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { db } from "@/db/client";
   import { Label } from "@/lib/components";
   import { cn } from "@/lib/utils";
   import { selectedItem } from "@/states";
@@ -9,6 +10,8 @@
   }: {
     word: Word;
   } = $props();
+
+  let updatedWord: Word | null = $state(null);
 </script>
 
 <div class="w-full flex justify-center">
@@ -18,8 +21,27 @@
       "flex flex-col items-center transition-all duration-300 select-none rounded-sm",
       selectedItem.matchWord(w.mainWriting) && "bg-pink-500",
     )}
-    onclick={() => {
-      selectedItem.value = selectedItem.matchWord(w.mainWriting) ? null : w;
+    onclick={async () => {
+      if (!updatedWord) {
+        selectedItem.value =
+          (await db.query.words.findFirst({
+            with: { saved: true, translations: true },
+            where: (words, { eq }) => eq(words.mainWriting, w.mainWriting),
+          })) || null;
+      } else {
+        selectedItem.value = updatedWord;
+      }
+      updatedWord = null;
+    }}
+    onmouseenter={async () => {
+      updatedWord =
+        (await db.query.words.findFirst({
+          with: { saved: true, translations: true },
+          where: (words, { eq }) => eq(words.mainWriting, w.mainWriting),
+        })) || null;
+    }}
+    onmouseleave={() => {
+      updatedWord = null;
     }}
   >
     <div class="w-full h-full flex items-center">

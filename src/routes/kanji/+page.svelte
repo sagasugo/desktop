@@ -10,6 +10,7 @@
   import { onMount } from "svelte";
   import { ScrollingValue } from "svelte-ux";
   import { page } from "$app/state";
+  import { appText } from "@/states";
 
   let search = $state("");
   let searchKana = $derived(
@@ -21,11 +22,13 @@
   let jlpt = $state("");
   let grade = $state("");
   let divSize = $state(0);
+  let divKanjis: HTMLDivElement = $state(null!);
   let mounted = $state(false);
   let getKanjisQuery = $derived(
     db.query.kanjis
       .findMany({
         with: {
+          saved: true,
           meanings: true,
         },
         where: (kanjis, { eq, like, or, and, exists, isNull }) =>
@@ -92,7 +95,10 @@
     >
       <div class="flex items-center gap-2">
         <Badge
-          class="h-10 w-24 flex justify-center items-center"
+          class={cn(
+            "h-10 flex justify-center items-center",
+            appText.language === "en" ? "w-24" : "w-36",
+          )}
           variant="outline"
         >
           <ScrollingValue
@@ -100,13 +106,16 @@
             value={$state.eager(showedKanjis.length)}
             axis="y"
           />
-          Found
+          {appText.v.badge.count}
         </Badge>
         <div class="flex flex-col text-primary parent">
           <Input
             variant="outline"
-            placeholder="Search kanjis..."
+            placeholder={appText.v.input.kanji}
             bind:value={search}
+            oninput={() => {
+              // divKanjis.scrollTo({ top: 0, behavior: "instant" })
+            }}
           />
           <Label class="absolute ml-2.5 mt-8 kanji-font">
             {$state.eager(searchKana)}
@@ -150,15 +159,18 @@
     <div class="w-full h-full" bind:clientWidth={divSize}>
       {#if showedKanjis.length === 0}
         <div class="w-full flex justify-center">
-          <Badge class="text-xl font-medium mt-10">Nothing found... ╥﹏╥</Badge>
+          <Badge class="text-xl font-medium mt-10"
+            >{appText.v.badge.notFound} ╥﹏╥</Badge
+          >
         </div>
       {/if}
       <VList
-        class="w-full h-40 flex gap-1 justify-center items-center overflow-y-scroll overflow-x-none scrollbar-hide scroll-smooth"
+        class="w-full h-40 flex gap-1 justify-center items-center overflow-y-scroll overflow-x-none scrollbar-hide"
         data={rowedKanjis}
         bufferSize={1000}
         getKey={(_, i) => i}
         tabindex={-1}
+        bind:this={divKanjis}
       >
         {#snippet children(kanjis: Kanji[], _)}
           <div class="flex gap-1 mb-1 justify-center">

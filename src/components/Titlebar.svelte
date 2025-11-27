@@ -6,10 +6,20 @@
   import { cn } from "@/lib/utils";
   import { page } from "$app/state";
   import { titleCase } from "@/utils";
-  import { appFont } from "@/states";
+  import { appFont, appText } from "@/states";
 
   const window = getCurrentWindow();
   const sidebar = useSidebar();
+
+  const titleByPage = $derived({
+    "/kana": appText.v.page.kana,
+    "/kanji": appText.v.page.kanji,
+    "/word": appText.v.page.word,
+    "/saved": appText.v.page.saved,
+    // only satisfying the compiler as all compiler slaves
+    "": "title",
+    "/": "title",
+  });
 </script>
 
 <div
@@ -35,11 +45,11 @@
       variant="ghost"
       onclick={() => appFont.nextFont()}
       ><p class="kanji-font text-xl">書</p>
-      Font: {appFont.font}</Button
+      {appText.v.btn.font}: {appFont.font}</Button
     >
   </div>
   <Label class="text-xl text-primary" data-tauri-drag-region
-    >{titleCase(page.route.id?.replace("/", ""))}</Label
+    >{titleByPage[page.route.id ?? ""]}</Label
   >
   <div
     class="flex [&>*]:size-9 [&>*]:rounded-md [&>*]:text-primary! [&>*]:hover:text-primary/70! [&>*]:pointer-events-auto"
