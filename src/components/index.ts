@@ -6,4 +6,6 @@ export { default as KanaCard } from "./KanaCard.svelte";
 export { default as KanjiCard } from "./KanjiCard.svelte";
 export { default as WordCard } from "./WordCard.svelte";
 export { default as EditNotes } from "./EditNotes.svelte";
+export { default as KanaShow } from "./KanaShow.svelte";
+export { default as KanjiCompare } from "./KanjiCompare.svelte";
 export { default as KanjiWordShow } from "./KanjiWordShow.svelte";

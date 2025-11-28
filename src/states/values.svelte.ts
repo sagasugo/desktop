@@ -36,6 +36,6 @@ export let selectedItem = new class {
 
 // kana or particle
 export let selectedKanaP = new class {
-  value: Kana | Particle | null = $state(null)
+  value: Kana | null = $state(null)
 }
 

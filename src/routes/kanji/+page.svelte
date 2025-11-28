@@ -1,7 +1,7 @@
 <script lang="ts">
   import { VList } from "virtua/svelte";
   import { toHiragana, toRomaji } from "wanakana";
-  import { Badge, Input, Label, Separator } from "@/lib/components";
+  import { Badge, Button, Input, Label, Separator } from "@/lib/components";
   import { KanjiCard, Select } from "@/components";
   import { cn } from "@/lib/utils";
   import { db } from "@/db/client";
@@ -10,7 +10,8 @@
   import { onMount } from "svelte";
   import { ScrollingValue } from "svelte-ux";
   import { page } from "$app/state";
-  import { appText } from "@/states";
+  import { appText, kanjiPage } from "@/states";
+  import Icon from "@iconify/svelte";
 
   let search = $state("");
   let searchKana = $derived(
@@ -19,8 +20,6 @@
       "",
     ),
   );
-  let jlpt = $state("");
-  let grade = $state("");
   let divSize = $state(0);
   let divKanjis: HTMLDivElement = $state(null!);
   let mounted = $state(false);
@@ -33,15 +32,18 @@
         },
         where: (kanjis, { eq, like, or, and, exists, isNull }) =>
           and(
-            jlpt
-              ? jlpt === "0"
+            kanjiPage.jlpt
+              ? kanjiPage.jlpt === "0"
                 ? isNull(kanjis.jlpt)
-                : eq(kanjis.jlpt, Number(jlpt))
+                : eq(kanjis.jlpt, Number(kanjiPage.jlpt))
               : undefined,
-            grade ? eq(kanjis.grade, Number(grade)) : undefined,
+            kanjiPage.grade
+              ? eq(kanjis.grade, Number(kanjiPage.grade))
+              : undefined,
             search !== ""
               ? or(
                   eq(kanjis.kanji, search),
+                  like(kanjis.radicals, `%${search}$`),
                   searchKana
                     ? like(kanjis.onReadings, `%${searchKana}%`)
                     : undefined,
@@ -122,11 +124,16 @@
           </Label>
         </div>
       </div>
-      <div class="flex items-center gap-2">
+      <div
+        class={cn(
+          "flex items-center gap-2",
+          kanjiPage.compareMode && "flex-row-reverse",
+        )}
+      >
         <Select
           classPopup="w-18"
           label="JLPT"
-          bind:selected={jlpt}
+          bind:selected={kanjiPage.jlpt}
           items={["5", "4", "3", "2", "1", "0"]}
           itemsLabel={{
             "5": "N5",
@@ -139,7 +146,7 @@
         />
         <Select
           label="Grade"
-          bind:selected={grade}
+          bind:selected={kanjiPage.grade}
           items={["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"]}
           itemsLabel={{
             "1": "Grade 1",
@@ -154,6 +161,22 @@
             "10": "Senior High 2",
           }}
         />
+        <Button
+          class={cn(
+            "transition-all duration-500",
+            !kanjiPage.compareMode && "text-primary/60",
+          )}
+          variant={$state.eager(kanjiPage.compareMode) ? "default" : "outline"}
+          onclick={() => {
+            kanjiPage.comparedKanjis = [];
+            kanjiPage.compareMode = !kanjiPage.compareMode;
+          }}
+        >
+          <Icon class="size-4!" icon="material-symbols:text-compare-rounded" />
+          {kanjiPage.compareMode
+            ? `${appText.v.btn.selectMore} ${2 - kanjiPage.comparedKanjis.length}`
+            : appText.v.btn.compare}
+        </Button>
       </div>
     </div>
     <div class="w-full h-full" bind:clientWidth={divSize}>

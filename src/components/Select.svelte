@@ -101,7 +101,7 @@
             <Label
               class={cn(
                 "w-full text-sm cursor-pointer truncate",
-                selected === "" && "dark:text-gray-400!",
+                selected === "" && "text-primary/60",
               )}
             >
               {selected !== "" ? (itemsLabel[selected] ?? selected) : label}

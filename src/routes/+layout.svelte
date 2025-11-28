@@ -9,7 +9,7 @@
   import "@fontsource/reggae-one";
   import { cn } from "@/lib/utils";
   import { appFont, speech, themeMode } from "@/states";
-  import { KanjiWordShow, Sidebar } from "@/components";
+  import { KanaShow, KanjiCompare, KanjiWordShow, Sidebar } from "@/components";
   import { Sidebar as SidebarProv } from "@/lib/components";
   import Titlebar from "@/components/Titlebar.svelte";
   import { onMount } from "svelte";
@@ -22,6 +22,8 @@
   });
 </script>
 
+<KanaShow />
+<KanjiCompare />
 <KanjiWordShow />
 <div
   data-theme="crimson"

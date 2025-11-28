@@ -1,10 +1,10 @@
 <script lang="ts">
   import { db } from "@/db/client";
-  import { kanjis } from "@/db/schema";
   import { Label } from "@/lib/components";
   import { cn } from "@/lib/utils";
-  import { selectedItem } from "@/states";
+  import { kanjiPage, selectedItem } from "@/states";
   import type { Kanji } from "@/type";
+  import { toKatakana } from "wanakana";
 
   let {
     kanji: k,
@@ -17,21 +17,36 @@
 
 <button
   class={cn(
-    "w-[90px] min-w-[90px] flex flex-col gap-2 border-2 border-pink-900 hover:bg-pink-800 text-primary hover:text-primary/90",
+    "w-[90px] min-w-[90px] flex flex-col gap-2 border-2   text-primary hover:text-primary/90",
     "flex flex-col items-center py-6 transition-all duration-300 select-none rounded-md [&>*]:cursor-pointer",
-    selectedItem.matchKanji(k.kanji) && "bg-pink-500",
+    kanjiPage.compareMode
+      ? "border-secondary hover:bg-secondary/50"
+      : "border-pink-900 hover:bg-pink-800",
+    (selectedItem.matchKanji(k.kanji) ||
+      kanjiPage.comparedKanjis.find(kn => kn.kanji === k.kanji)) &&
+      "border-pink-900 bg-pink-500 hover:bg-pink-800",
   )}
   onclick={async () => {
-    if (!updatedKanji) {
-      selectedItem.value =
-        (await db.query.kanjis.findFirst({
-          with: { saved: true, meanings: true },
-          where: (kanjis, { eq }) => eq(kanjis.kanji, k.kanji),
-        })) || null;
+    if (!kanjiPage.compareMode) {
+      if (!updatedKanji) {
+        selectedItem.value =
+          (await db.query.kanjis.findFirst({
+            with: { saved: true, meanings: true },
+            where: (kanjis, { eq }) => eq(kanjis.kanji, k.kanji),
+          })) || null;
+      } else {
+        selectedItem.value = updatedKanji;
+      }
+      updatedKanji = null;
     } else {
-      selectedItem.value = updatedKanji;
+      if (kanjiPage.comparedKanjis.find(kn => kn.kanji === k.kanji)) {
+        kanjiPage.comparedKanjis = kanjiPage.comparedKanjis.filter(
+          kn => kn.kanji !== k.kanji,
+        );
+      } else {
+        kanjiPage.comparedKanjis.push(k);
+      }
     }
-    updatedKanji = null;
   }}
   onmouseenter={async () => {
     updatedKanji =
@@ -52,7 +67,14 @@
   <Label class="hover:text-primary! text-3xl kanji-font z-10">
     {k.kanji}
   </Label>
-  <Label class="kanji-font">
-    {k.mainOnReading ?? k.mainKunReading}
-  </Label>
+  {#if k.mainOnReading}
+    <Label class="kanji-font">
+      {toKatakana(k.mainOnReading)}
+    </Label>
+  {/if}
+  {#if k.mainKunReading}
+    <Label class="kanji-font">
+      {k.mainKunReading}
+    </Label>
+  {/if}
 </button>

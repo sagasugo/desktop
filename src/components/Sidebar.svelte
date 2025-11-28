@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { appText, themeMode } from "@/states";
+  import { appText, kanjiPage, themeMode } from "@/states";
   import { Sidebar, Label } from "@/lib/components";
   import { cn } from "@/lib/utils";
   import { page } from "$app/state";
@@ -35,7 +35,13 @@
           <b class="-ml-1">言</b>
           <Label>{appText.v.page.word}</Label>
         </Sidebar.MenuButton>
-        <Sidebar.MenuButton onclick={() => goto("/saved")}>
+        <Sidebar.MenuButton
+          onclick={() => {
+            kanjiPage.compareMode = false;
+            kanjiPage.comparedKanjis = [];
+            goto("/saved");
+          }}
+        >
           <Icon
             class="size-6! -ml-1"
             icon="material-symbols-light:bookmarks-rounded"

@@ -4,12 +4,13 @@
   import { EditNotes, Tooltip } from "@/components";
   import { Badge, Button, Drawer, Label } from "@/lib/components";
   import { cn } from "@/lib/utils";
-  import { appText, selectedItem, speech } from "@/states";
+  import { appText, savedPage, selectedItem, speech } from "@/states";
   import type { Kanji, Word } from "@/type";
   import Icon from "@iconify/svelte";
   import { sleep } from "@/utils";
   import { savedKanjis, savedWords } from "@/db/schema";
   import { eq } from "drizzle-orm";
+  import { toKatakana } from "wanakana";
 
   let open = $state(false);
   let openKanji: Kanji | null = $state(null);
@@ -78,7 +79,7 @@
         )}
       >
         <div class="flex gap-10">
-          <div class="flex flex-col justify-center">
+          <div class="flex flex-col justify-center items-center gap-2">
             <Label class="flex justify-center text-2xl"
               >{openKanji?.meanings[0]?.keyword}</Label
             >
@@ -90,6 +91,8 @@
               >
                 <Button
                   class={cn(
+                    !(openKanji?.mainOnReading ?? openKanji?.mainKunReading) &&
+                      "hidden",
                     !speech.isJPAvailable &&
                       "opacity-60 hover:bg-background/30",
                   )}
@@ -129,6 +132,41 @@
                 {copied ? appText.v.btn.copySucessful : appText.v.btn.copy}
               </Button>
             </div>
+            <Badge
+              class={cn(
+                "w-full justify-between text-xl border-pink-400",
+                (openKanji === null || openKanji?.radicals?.length === 0) &&
+                  "hidden",
+              )}
+              variant="outline"
+              >Radicals
+              <p class="text-xl max-w-50 kanji-font">
+                {#each openKanji?.radicals ?? [] as radical, i (i)}
+                  <button
+                    onclick={async () => {
+                      const possibleKanji = await db.query.kanjis.findFirst({
+                        with: {
+                          saved: true,
+                          meanings: true,
+                        },
+                        where: (kanjis, { eq }) => eq(kanjis.kanji, radical),
+                      });
+                      if (possibleKanji) {
+                        selectedItem.value = possibleKanji;
+                      }
+                    }}
+                  >
+                    {radical}
+                  </button>
+                  {(openKanji?.radicals?.length ?? 1) > 1 &&
+                  i + 1 < (openKanji?.radicals?.length ?? 1)
+                    ? ","
+                    : ""}
+                {:else}
+                  -
+                {/each}
+              </p>
+            </Badge>
           </div>
           <div class="flex flex-col justify-center gap-2">
             {#if openKanji?.meanings.length ?? 0 > 0}
@@ -155,7 +193,7 @@
                 <p class="text-xl max-w-120 kanji-font">
                   {#each openKanji?.onReadings ?? [] as onReading, i (i)}
                     <button onclick={() => speech.speak(onReading)}>
-                      {onReading}
+                      {toKatakana(onReading)}
                     </button>
                     {(openKanji?.onReadings?.length ?? 1) > 1 &&
                     i + 1 < (openKanji?.onReadings?.length ?? 1)
@@ -232,6 +270,7 @@
                       eq(kanjis.kanji, openKanji?.kanji ?? ""),
                   });
                   openKanji = updatedKanji || null;
+                  savedPage.refreshKanjis();
                 }}
               >
                 <Icon
@@ -380,6 +419,7 @@
                   });
                   console.log(updatedWord);
                   openWord = updatedWord || null;
+                  savedPage.refreshWords();
                 }}
               >
                 <Icon

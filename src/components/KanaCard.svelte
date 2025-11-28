@@ -1,7 +1,7 @@
 <script lang="ts">
   import { Button, Label } from "@/lib/components";
   import { cn } from "@/lib/utils";
-  import { kanaPage } from "@/states";
+  import { kanaPage, selectedKanaP } from "@/states";
   import type { Kana } from "@/type";
 
   const { kana }: { kana: Kana } = $props();
@@ -13,6 +13,7 @@
     !kanaPage.showRomaji && "h-18",
   )}
   variant="outline"
+  onclick={() => (selectedKanaP.value = kana)}
 >
   <Label class="text-4xl kanji-font transition-all duration-500">
     {kana.literal}

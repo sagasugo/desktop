@@ -25,6 +25,7 @@
     db.query.words
       .findMany({
         with: {
+          saved: true,
           translations: true,
         },
         where: (words, { eq, like, exists, or, and }) =>
@@ -33,6 +34,7 @@
                 searchKana
                   ? like(words.mainReading, `%${searchKana}%`)
                   : undefined,
+                like(words.mainWriting, `%${search}%`),
                 exists(
                   db
                     .select()

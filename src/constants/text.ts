@@ -17,6 +17,8 @@ export const textByLanguage = {
       remove: "Remove",
       addNote: "Add note",
       editNote: "Edit note",
+      compare: "Compare",
+      selectMore: "Select more",
     },
     input: {
       kanji: "Search kanjis...",
@@ -29,6 +31,7 @@ export const textByLanguage = {
       notes: "Notes",
       meanings: "Meanings",
       variants: "Variants",
+      particles: "Related particles",
     },
     tooltip: {
       hear: "You need japanese language installed to hear words",
@@ -52,6 +55,8 @@ export const textByLanguage = {
       remove: "Remover",
       addNote: "Criar nota",
       editNote: "Editar nota",
+      compare: "Comparar",
+      selectMore: "Selecione mais",
     },
     input: {
       kanji: "Pesquise kanjis...",
@@ -64,6 +69,7 @@ export const textByLanguage = {
       notes: "Notas",
       meanings: "Significados",
       variants: "Variantes",
+      particles: "Partículas relacionadas",
     },
     tooltip: {
       hear: "Para ouvir as palavras você precisa instalar Japonês em sua máquina",
