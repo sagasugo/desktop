@@ -35,6 +35,7 @@
                   ? like(words.mainReading, `%${searchKana}%`)
                   : undefined,
                 like(words.mainWriting, `%${search}%`),
+                like(words.mainKanjis, `%${search}`),
                 exists(
                   db
                     .select()

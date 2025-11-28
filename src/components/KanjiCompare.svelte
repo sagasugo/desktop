@@ -18,9 +18,12 @@
       <div
         class="w-1/2 h-full flex flex-col justify-between items-center gap-2"
       >
-        <Label class="text-[12rem] text-primary kanji-font">
+        <button
+          class="text-[12rem] font-medium text-primary kanji-font"
+          onclick={() => (selectedItem.value = k)}
+        >
           {k.kanji}
-        </Label>
+        </button>
         <div class="h-full flex flex-col gap-2 justify-end items-center">
           <Badge class="text-md items-start" variant="outline">
             On yomi:
