@@ -26,7 +26,7 @@
 >
   <Dialog.Content
     class="h-140 flex flex-col justify-center items-center text-primary"
-    onInteractOut={() => {
+    onOut={() => {
       selectedKanaP.value = null;
     }}
   >
