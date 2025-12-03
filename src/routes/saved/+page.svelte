@@ -9,8 +9,8 @@
 
   let kanjiDivSize = $state(0);
   let rowedKanjis: Kanji[][] = $derived.by(() => {
-    if (!kanjiDivSize || kanjiDivSize < 97) return [savedPage.kanjis];
-    const itemsPerRow = Math.floor(kanjiDivSize / 97);
+    if (!kanjiDivSize || kanjiDivSize < 107) return [savedPage.kanjis];
+    const itemsPerRow = Math.floor(kanjiDivSize / 107);
     return savedPage.kanjis.reduce((acc: Kanji[][], _, i) => {
       if (i % itemsPerRow === 0)
         acc.push(savedPage.kanjis.slice(i, i + itemsPerRow));

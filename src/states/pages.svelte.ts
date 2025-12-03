@@ -11,6 +11,7 @@ export const kanaPage = new class {
 export const kanjiPage = new class {
   jlpt: string = $state("")
   grade: string = $state("")
+  strokeCount: string = $state("")
   compareMode: boolean = $state(false)
   comparedKanjis: Kanji[] = $state([])
 }

@@ -2,7 +2,7 @@
   import { db } from "@/db/client";
   import { Badge, Button, Input, Label } from "@/lib/components";
   import { VList } from "virtua/svelte";
-  import { toHiragana } from "wanakana";
+  import { toKana } from "wanakana";
   import type { Word } from "@/type";
   import { ScrollingValue } from "svelte-ux";
   import { WordCard } from "@/components";
@@ -13,7 +13,7 @@
 
   let search = $state("");
   let searchKana = $derived(
-    toHiragana(search).replace(
+    toKana(search).replace(
       /[^\u3040-\u309F\u30A0-\u30FF\u3001-\u303F\uFF01-\uFF60.?!\-\s]/g,
       "",
     ),
@@ -75,7 +75,7 @@
       )}
       variant="outline"
     >
-      <ScrollingValue class="-mt-4.5" value={foundWords.length} axis="y" />
+      <ScrollingValue value={$state.eager(foundWords.length)} axis="y" />
       {appText.v.badge.count}
     </Badge>
     <div class="flex flex-col p-4 text-primary parent">

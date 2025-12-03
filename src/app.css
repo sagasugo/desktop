@@ -6,6 +6,8 @@
 @import "@skeletonlabs/skeleton-svelte";
 @import "@skeletonlabs/skeleton/themes/crimson";
 
+@source './../node_modules/svelte-ux/dist';
+
 @custom-variant dark (&:is(.dark *));
 
 @utility scrollbar {

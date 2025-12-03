@@ -17,8 +17,8 @@
 
 <button
   class={cn(
-    "w-[90px] min-w-[90px] flex flex-col gap-2 border-2   text-primary hover:text-primary/90",
-    "flex flex-col items-center py-6 transition-all duration-300 select-none rounded-md [&>*]:cursor-pointer",
+    "w-[100px] min-w-[100px] h-45 gap-2 border-2 text-primary hover:text-primary/90",
+    "flex flex-col justify-center items-center py-2 transition-all duration-300 select-none rounded-md [&>*]:cursor-pointer",
     kanjiPage.compareMode
       ? "border-secondary hover:bg-secondary/50"
       : "border-pink-900 hover:bg-pink-800",

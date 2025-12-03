@@ -349,7 +349,7 @@
                 >
               {/if}
             </div>
-            <div class="flex gap-2">
+            <div class={cn("flex gap-2", openWord === null && "hidden")}>
               <Tooltip
                 disabled={speech.isJPAvailable}
                 text={appText.v.tooltip.hear}

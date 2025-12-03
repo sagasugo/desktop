@@ -17,7 +17,7 @@
 <div class="w-full flex justify-center">
   <button
     class={cn(
-      "w-[80vw] h-30 flex flex-col gap-2 border-2 border-pink-900 hover:bg-pink-800 text-primary hover:text-primary/90 mb-1 overflow-hidden",
+      "w-[80vw] h-30! flex flex-col gap-2 border-2 border-pink-900 hover:bg-pink-800 text-primary hover:text-primary/90 mb-1 overflow-hidden",
       "flex flex-col items-center transition-all duration-300 select-none rounded-sm",
       selectedItem.matchWord(w.mainWriting) && "bg-pink-500",
     )}

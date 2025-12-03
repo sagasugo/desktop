@@ -1,6 +1,6 @@
 <script lang="ts">
   import { VList } from "virtua/svelte";
-  import { toHiragana, toRomaji } from "wanakana";
+  import { toKana, toRomaji } from "wanakana";
   import { Badge, Button, Input, Label, Separator } from "@/lib/components";
   import { KanjiCard, Select } from "@/components";
   import { cn } from "@/lib/utils";
@@ -15,7 +15,7 @@
 
   let search = $state("");
   let searchKana = $derived(
-    toHiragana(search).replace(
+    toKana(search).replace(
       /[^\u3040-\u309F\u30A0-\u30FF\u3001-\u303F\uFF01-\uFF60.?!\-\s]/g,
       "",
     ),
@@ -39,6 +39,9 @@
               : undefined,
             kanjiPage.grade
               ? eq(kanjis.grade, Number(kanjiPage.grade))
+              : undefined,
+            kanjiPage.strokeCount
+              ? eq(kanjis.strokeCount, Number(kanjiPage.strokeCount))
               : undefined,
             search !== ""
               ? or(
@@ -72,8 +75,8 @@
     mounted ? await getKanjisQuery.execute() : [],
   );
   let rowedKanjis: Kanji[][] = $derived.by(() => {
-    if (!divSize || divSize < 97) return [showedKanjis];
-    const itemsPerRow = Math.floor(divSize / 97);
+    if (!divSize || divSize < 107) return [showedKanjis];
+    const itemsPerRow = Math.floor(divSize / 107);
     return showedKanjis.reduce((acc: Kanji[][], _, i) => {
       if (i % itemsPerRow === 0)
         acc.push(showedKanjis.slice(i, i + itemsPerRow));
@@ -103,11 +106,7 @@
           )}
           variant="outline"
         >
-          <ScrollingValue
-            class="-mt-4.5"
-            value={$state.eager(showedKanjis.length)}
-            axis="y"
-          />
+          <ScrollingValue value={$state.eager(showedKanjis.length)} axis="y" />
           {appText.v.badge.count}
         </Badge>
         <div class="flex flex-col text-primary parent">
@@ -130,37 +129,80 @@
           kanjiPage.compareMode && "flex-row-reverse",
         )}
       >
-        <Select
-          classPopup="w-18"
-          label="JLPT"
-          bind:selected={kanjiPage.jlpt}
-          items={["5", "4", "3", "2", "1", "0"]}
-          itemsLabel={{
-            "5": "N5",
-            "4": "N4",
-            "3": "N3",
-            "2": "N2",
-            "1": "N1",
-            "0": "Non JLPT",
-          }}
-        />
-        <Select
-          label="Grade"
-          bind:selected={kanjiPage.grade}
-          items={["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"]}
-          itemsLabel={{
-            "1": "Grade 1",
-            "2": "Grade 2",
-            "3": "Grade 3",
-            "4": "Grade 4",
-            "5": "Grade 5",
-            "6": "Grade 6",
-            "7": "Junior High 1",
-            "8": "Junior High 2",
-            "9": "Senior High 1",
-            "10": "Senior High 2",
-          }}
-        />
+        <div class="flex items-center gap-2">
+          <Select
+            classPopup="w-18"
+            label="JLPT"
+            bind:selected={kanjiPage.jlpt}
+            items={["5", "4", "3", "2", "1", "0"]}
+            itemsLabel={{
+              "5": "N5",
+              "4": "N4",
+              "3": "N3",
+              "2": "N2",
+              "1": "N1",
+              "0": "Non JLPT",
+            }}
+          />
+          <Select
+            label="Grade"
+            bind:selected={kanjiPage.grade}
+            items={["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"]}
+            itemsLabel={{
+              "1": "Grade 1",
+              "2": "Grade 2",
+              "3": "Grade 3",
+              "4": "Grade 4",
+              "5": "Grade 5",
+              "6": "Grade 6",
+              "7": "Junior High 1",
+              "8": "Junior High 2",
+              "9": "Senior High 1",
+              "10": "Senior High 2",
+            }}
+          />
+          <Select
+            classPopup="w-16"
+            label="Strokes"
+            bind:selected={kanjiPage.strokeCount}
+            items={[
+              "1",
+              "2",
+              "3",
+              "4",
+              "5",
+              "6",
+              "7",
+              "8",
+              "9",
+              "10",
+              "11",
+              "12",
+              "13",
+              "14",
+              "15",
+              "16",
+              "17",
+              "18",
+              "19",
+              "20",
+              "21",
+              "22",
+              "23",
+              "24",
+              "25",
+              "26",
+              "27",
+              "28",
+              "29",
+              "30",
+              "31",
+              "32",
+              "33",
+              "34",
+            ]}
+          />
+        </div>
         <Button
           class={cn(
             "transition-all duration-500",
