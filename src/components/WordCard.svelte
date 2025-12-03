@@ -2,7 +2,7 @@
   import { db } from "@/db/client";
   import { Label } from "@/lib/components";
   import { cn } from "@/lib/utils";
-  import { selectedItem } from "@/states";
+  import { appText, selectedItem } from "@/states";
   import type { Word } from "@/type";
 
   let {
@@ -55,7 +55,8 @@
           {w.mainWriting}
         </Label>
         <Label class="break-all">
-          {w.translations?.[0]?.mainMeaning}
+          {w.translations.find(t => t.language === appText.language)
+            ?.mainMeaning ?? w.translations?.[0]?.mainMeaning}
         </Label>
       </div>
       <p class="w-2/8 text-2xl font-medium kanji-font">

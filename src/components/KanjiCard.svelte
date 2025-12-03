@@ -2,7 +2,7 @@
   import { db } from "@/db/client";
   import { Label } from "@/lib/components";
   import { cn } from "@/lib/utils";
-  import { kanjiPage, selectedItem } from "@/states";
+  import { appText, kanjiPage, selectedItem } from "@/states";
   import type { Kanji } from "@/type";
   import { toKatakana } from "wanakana";
 
@@ -62,7 +62,8 @@
   <p
     class="w-[80px] min-w-0 font-medium text-md overflow-hidden text-center line-clamp-2 break-words"
   >
-    {k.meanings?.[0]?.keyword?.trim()}
+    {k.meanings.find(m => m.language === appText.language)?.keyword ??
+      k.meanings?.[0]?.keyword?.trim()}
   </p>
   <Label class="hover:text-primary! text-3xl kanji-font z-10">
     {k.kanji}

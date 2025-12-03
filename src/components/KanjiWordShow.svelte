@@ -81,7 +81,8 @@
         <div class="flex gap-10">
           <div class="flex flex-col justify-center items-center gap-2">
             <Label class="flex justify-center text-2xl"
-              >{openKanji?.meanings[0]?.keyword}</Label
+              >{openKanji?.meanings?.find(m => m.language === appText.language)
+                ?.keyword ?? openKanji?.meanings[0]?.keyword}</Label
             >
             <Label class="text-[10rem] kanji-font">{openKanji?.kanji}</Label>
             <div class={cn("flex gap-2", openKanji === null && "hidden")}>
@@ -176,7 +177,7 @@
               <div
                 class="w-70 h-24 p-2 border-2 border-secondary/40 rounded-xl text-xl max-w-70 overflow-x-hidden overflow-y-auto scrollbar break-normal wrap-break-word"
               >
-                {#each openKanji?.meanings?.[0]?.meanings ?? [] as meaning}
+                {#each openKanji?.meanings?.find(m => m.language === appText.language)?.meanings ?? openKanji?.meanings?.[0]?.meanings ?? [] as meaning}
                   <p class="pb-1 border-b-primary/50 border-b-1">
                     {meaning}
                   </p>
@@ -345,7 +346,10 @@
               >
               {#if openWord?.translations.length ?? 0 > 0}
                 <Label class="text-xl max-w-82 line-clamp-2"
-                  >{openWord?.translations?.[0].mainMeaning}</Label
+                  >{openWord?.translations?.find(
+                    t => t.language === appText.language,
+                  )?.mainMeaning ??
+                    openWord?.translations?.[0].mainMeaning}</Label
                 >
               {/if}
             </div>
@@ -487,7 +491,7 @@
               <div
                 class="w-70 h-24 p-2 border-2 border-pink-800/40 rounded-md text-xl max-w-70 overflow-x-hidden overflow-y-auto scrollbar break-normal wrap-break-word"
               >
-                {#each openWord?.translations?.[0]?.meanings ?? [] as meaning}
+                {#each openWord?.translations?.find(t => t.language === appText.language)?.meanings ?? openWord?.translations?.[0]?.meanings ?? [] as meaning}
                   <p class="pb-1 border-b-pink-400 border-b-1">
                     {meaning}
                   </p>
